@@ -1,17 +1,19 @@
 
-import { createStore } from "redux"
+import { createStore } from 'redux';
 
 const initialState = {
-  page: "INTRODUCTION",
-}
+  page: 'INTRODUCTION',
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "PAGE_UPDATE":
-      return { ...state, page: action.page }
+    case 'PAGE_UPDATE':
+      return { ...state, page: action.page };
     default:
-      return state
+      return state;
   }
 };
 
-export const store = createStore(reducer, initialState)
+const store = createStore(reducer, initialState);
+
+export default store;

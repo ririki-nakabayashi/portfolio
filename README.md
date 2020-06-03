@@ -17,7 +17,8 @@
 
 # コンポーネント設計
 ## index.jsx
-  - DOMの生成のみを担当
+  - DOMの生成を担当
+  - storeの反映
 ## App.jsx
   - ページ全体のパーツ配置（ヘッダー, コンテンツ）と、コンテンツのルーティングを担当
   - react-routerは使わず、storeの値でページを出し分け
@@ -31,8 +32,8 @@
 
 # コーディングルール
 ## 基本方針
-  - ESLintの初期設定を踏襲
+  - ESLintを使用(設定はairbnb)
   - 各コンポーネントは関数(function)をexportし、関数内では定数(const)で定義する
 ## スタイル
-  - styled-componentsを使用し、スコープちっくに
-  - グローバルな指定はindex.cssに記述
+  - styled-componentsを使用し、ローカルスコープで記述
+  - グローバルな設定はindex.cssに記述

@@ -1,5 +1,5 @@
-import React from "react"
+import React from 'react';
 
 export default function Introduction() {
-  return <div>Introduction</div>
+  return <div>Introduction</div>;
 }
