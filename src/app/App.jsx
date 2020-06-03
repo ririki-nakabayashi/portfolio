@@ -1,11 +1,11 @@
 import React, {useMemo} from "react"
+import { useSelector, useDispatch } from "react-redux"
 import Introduction from "./pages/Introduction"
 import Info from "./pages/Info"
-import {useStore, useDispatch} from "./store"
 
 export default function App() {
-  const {store: {page}} = useStore()
-  const {dispatch} = useDispatch()
+  const page = useSelector(state => state.page)
+  const dispatch = useDispatch();
   const content = useMemo(() => {
     switch (page) {
       case "INTRODUCTION":
