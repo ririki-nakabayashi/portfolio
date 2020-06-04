@@ -63,6 +63,10 @@ const ProfileWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin: 0 20px 40px 20px;
+  ${mediaQuery.lessThan('medium')`
+    flex-direction: column;
+    text-align: center;
+  `}
 `;
 
 const CareerWrapper = styled.div`
@@ -83,4 +87,7 @@ const ImageArea = styled.div`
   height: 100px;
   border-radius: 50%;
   margin-right: 20px;
+  ${mediaQuery.lessThan('medium')`
+    margin-bottom: 20px;
+  `}
 `;

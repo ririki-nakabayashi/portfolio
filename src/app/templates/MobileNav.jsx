@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useMemo, useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import mediaQuery from 'styled-media-query';
 
 export default function MobileNav() {
+  const page = useSelector((state) => state.page);
   const dispatch = useDispatch();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const switchMobileNavOpenClose = useCallback(() => {
@@ -13,40 +14,25 @@ export default function MobileNav() {
     switchMobileNavOpenClose();
     dispatch({ type: 'PAGE_UPDATE', page: target });
   }, [isMobileNavOpen]);
+  const buttons = useMemo(() => {
+    const list = ['CONTACT', 'PRODUCTS', 'ABOUT', 'TOP'];
+    return list.filter((item) => item !== page).map((item, i) => (
+      <Button
+        type="button"
+        style={{ transform: isMobileNavOpen && `translate(0px, -${(i + 1) * 70}px)`, opacity: isMobileNavOpen && 1 }}
+        onClick={() => switchPage(item)}
+      >
+        {item}
+      </Button>
+    ));
+  }, [isMobileNavOpen]);
   return (
     <>
       {isMobileNavOpen && (<Layer />)}
       <Container>
         <ButtonWrapper>
           <LeadButton type="button" onClick={switchMobileNavOpenClose}>{isMobileNavOpen ? '×' : '='}</LeadButton>
-          <Button
-            type="button"
-            style={{ transform: isMobileNavOpen && 'translate(0px, -280px)', opacity: isMobileNavOpen && 1 }}
-            onClick={() => switchPage('TOP')}
-          >
-            TOP
-          </Button>
-          <Button
-            type="button"
-            style={{ transform: isMobileNavOpen && 'translate(0px, -210px)', opacity: isMobileNavOpen && 1 }}
-            onClick={() => switchPage('ABOUT')}
-          >
-            ABOUT
-          </Button>
-          <Button
-            type="button"
-            style={{ transform: isMobileNavOpen && 'translate(0px, -140px)', opacity: isMobileNavOpen && 1 }}
-            onClick={() => switchPage('PRODUCTS')}
-          >
-            PRODUCTS
-          </Button>
-          <Button
-            type="button"
-            style={{ transform: isMobileNavOpen && 'translate(0px, -70px)', opacity: isMobileNavOpen && 1 }}
-            onClick={() => switchPage('CONTACT')}
-          >
-            CONTACT
-          </Button>
+          {buttons}
         </ButtonWrapper>
       </Container>
     </>
