@@ -1,4 +1,41 @@
+html {
+  font-size: 62.5%;
+}
+
 body {
   margin: 0;
   padding: 0;
+  background-color: #131313;
+  color: #fff;
+  font-family: "游明朝","Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","HGS明朝E","メイリオ","Meiryo","serif";
+  font-size: 1.6rem;
+}
+
+button {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 10px;
+  appearance: none;
+  font-family: "游明朝","Yu Mincho","YuMincho","Hiragino Mincho ProN","Hiragino Mincho Pro","HGS明朝E","メイリオ","Meiryo","serif";
+  font-size: 1.6rem;
+}
+
+p {
+  margin: 0 0 1em 0;
+}
+
+a:link {
+  color: #fff;
+  text-decoration: none;
+}
+a:visited {
+  color: #fff;
+  text-decoration: none;
+}
+a:hover {
+  color: #fff;
+  text-decoration: none;
 }

@@ -2,7 +2,7 @@
 import { createStore } from 'redux';
 
 const initialState = {
-  page: 'INTRODUCTION',
+  page: 'TOP',
 };
 
 const reducer = (state, action) => {
