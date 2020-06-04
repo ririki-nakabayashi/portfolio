@@ -43,7 +43,7 @@ export default function About() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 50px);
   width: 100%;
   margin-left: 150px;
   padding: 20px;
@@ -78,7 +78,7 @@ const BusinessWrapper = styled.div`
 `;
 
 const ImageArea = styled.div`
-  background-color: #fff;
+  background-color: #444;
   width: 100px;
   height: 100px;
   border-radius: 50%;

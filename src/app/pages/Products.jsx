@@ -87,7 +87,7 @@ export default function Products() {
 }
 
 const Container = styled.div`
-  height: 100%;
+  height: calc(100% - 50px);
   width: 100%;
   margin-left: 150px;
   padding: 20px;
@@ -99,11 +99,20 @@ const Container = styled.div`
 
 const ProductWrapper = styled.div`
   display: flex;
+  margin-bottom: 60px;
+  ${mediaQuery.lessThan('medium')`
+    flex-direction: column;
+  `}
 `;
 
 const ProductImage = styled.div`
-  background-color: #fff;
+  background-color: #444;
   width: 300px;
   height: 200px;
   margin-right: 20px;
+  ${mediaQuery.lessThan('medium')`
+    width: 100%;
+    height: 300px;
+    margin-right: 0;
+  `}
 `;
