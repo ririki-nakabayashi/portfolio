@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/ririki-nakabayashi/portfolio/issues"
   },
-  "homepage": "https://ririki-nakabayashi.github.io/portfolio/",
+  "homepage": "https://ririki-nakabayashi.github.io/portfolio/.",
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
