@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import mediaQuery from 'styled-media-query';
 
 export default function About() {
   return (
@@ -47,6 +48,9 @@ const Container = styled.div`
   margin-left: 150px;
   padding: 20px;
   overflow: scroll;
+  ${mediaQuery.lessThan('medium')`
+    margin-left: 0;
+  `}
 `;
 
 const Title = styled.div`

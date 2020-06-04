@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import mediaQuery from 'styled-media-query';
 
-export default function Nav() {
+export default function DesctopNav() {
   const page = useSelector((state) => state.page);
   const dispatch = useDispatch();
   const pages = ['TOP', 'ABOUT', 'PRODUCTS', 'CONTACT'];
@@ -26,6 +27,9 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
   z-index: 10;
+  ${mediaQuery.lessThan('medium')`
+    display: none;
+  `}
 `;
 
 const Button = styled.button`
