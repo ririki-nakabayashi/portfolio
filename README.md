@@ -14,6 +14,8 @@
   - (Redux)useStore,useDispatch等を使って簡潔にstore構築
 ## webpack.config.js
   - webpack.dev.js（開発環境）, webpack.prod.js（本番環境）は、今回特に設定の必要はないのでなしで
+## microCMS
+  - 経歴と実績は簡単に更新できるようにヘッドレスCMS（microCMS）を採用
 
 # コンポーネント設計
 ## index.jsx

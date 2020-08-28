@@ -1,87 +1,25 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import mediaQuery from 'styled-media-query';
+import { useSelector } from 'react-redux';
+import { format } from 'date-fns';
 
 export default function Products() {
+  const products = useSelector((state) => state.products);
+  const formatDate = useCallback((target) => (target ? format(new Date(target), 'yyyy-MM') : ''));
   return (
     <Container>
-      <ProductWrapper>
-        <ProductImage>sample-image</ProductImage>
-        <div>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-        </div>
-      </ProductWrapper>
-      <ProductWrapper>
-        <ProductImage>sample-image</ProductImage>
-        <div>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-        </div>
-      </ProductWrapper>
-      <ProductWrapper>
-        <ProductImage>sample-image</ProductImage>
-        <div>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-        </div>
-      </ProductWrapper>
-      <ProductWrapper>
-        <ProductImage>sample-image</ProductImage>
-        <div>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-        </div>
-      </ProductWrapper>
-      <ProductWrapper>
-        <ProductImage>sample-image</ProductImage>
-        <div>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-        </div>
-      </ProductWrapper>
-      <ProductWrapper>
-        <ProductImage>sample-image</ProductImage>
-        <div>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-        </div>
-      </ProductWrapper>
-      <ProductWrapper>
-        <ProductImage>sample-image</ProductImage>
-        <div>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-          <p>sample-text</p>
-        </div>
-      </ProductWrapper>
+      {products.map((item) => (
+        <ProductWrapper key={item.id}>
+          <ProductImageBox><ProductImage alt="productImage" src={item.image.url} /></ProductImageBox>
+          <div>
+            <p>{item.title}</p>
+            <p>{item.desc}</p>
+            <p>{item.option}</p>
+            <p>{`${formatDate(item.startDate)}~${formatDate(item.endDate)}`}</p>
+          </div>
+        </ProductWrapper>
+      ))}
     </Container>
   );
 }
@@ -105,9 +43,8 @@ const ProductWrapper = styled.div`
   `}
 `;
 
-const ProductImage = styled.div`
-  background-color: #444;
-  width: 300px;
+const ProductImageBox = styled.div`
+  min-width: 300px;
   height: 200px;
   margin-right: 20px;
   ${mediaQuery.lessThan('medium')`
@@ -115,4 +52,9 @@ const ProductImage = styled.div`
     height: 300px;
     margin-right: 0;
   `}
+`;
+
+const ProductImage = styled.img`
+  max-width: 100%;
+  max-height: 100%;
 `;

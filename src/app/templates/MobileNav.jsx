@@ -18,6 +18,7 @@ export default function MobileNav() {
     const list = ['CONTACT', 'PRODUCTS', 'ABOUT', 'TOP'];
     return list.filter((item) => item !== page).map((item, i) => (
       <Button
+        key={item}
         type="button"
         style={{ transform: isMobileNavOpen && `translate(0px, -${(i + 1) * 70}px)`, opacity: isMobileNavOpen && 1 }}
         onClick={() => switchPage(item)}
@@ -61,7 +62,7 @@ const Layer = styled.div`
   z-index: 5;
 `;
 
-const ButtonWrapper = styled.button`
+const ButtonWrapper = styled.div`
   position: relative;
 `;
 

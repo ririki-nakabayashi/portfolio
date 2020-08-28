@@ -9,8 +9,8 @@ export default function DesctopNav() {
   const pages = ['TOP', 'ABOUT', 'PRODUCTS', 'CONTACT'];
   const buttons = useMemo(() => pages.map((item) => (
     item === page
-      ? <ActiveButton type="button" onClick={() => dispatch({ type: 'PAGE_UPDATE', page: item })}>{item}</ActiveButton>
-      : <Button type="button" onClick={() => dispatch({ type: 'PAGE_UPDATE', page: item })}>{item}</Button>
+      ? <ActiveButton key={item} type="button" onClick={() => dispatch({ type: 'PAGE_UPDATE', page: item })}>{item}</ActiveButton>
+      : <Button key={item} type="button" onClick={() => dispatch({ type: 'PAGE_UPDATE', page: item })}>{item}</Button>
   )), [page]);
   return (
     <Container>
