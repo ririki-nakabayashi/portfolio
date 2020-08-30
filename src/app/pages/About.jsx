@@ -10,14 +10,16 @@ export default function About() {
   const formatDate = useCallback((target) => (target ? format(new Date(target), 'yyyy-MM') : ''));
   return (
     <Container>
-      <Title>Profile</Title>
-      <ProfileWrapper>
-        <ImageArea><Image src={profile.image.url} /></ImageArea>
-        <div>
-          <p>UI/フロントエンド エンジニア</p>
-          <p>ナカバヤシ リリキ</p>
-        </div>
-      </ProfileWrapper>
+      <div>
+        <Title>Profile</Title>
+        <ProfileWrapper>
+          <ImageArea><Image src={profile.image.url} /></ImageArea>
+          <div>
+            <p>UI/フロントエンド エンジニア</p>
+            <p>ナカバヤシ リリキ</p>
+          </div>
+        </ProfileWrapper>
+      </div>
       <Title>Skill</Title>
       <BasicWrapper>
         <p>FE: HTML, CSS, SASS, JavaScript(ES6), React, Vue.js, Angular, TypeScript</p>
@@ -38,7 +40,7 @@ export default function About() {
         <p>名称: force. (フォース)</p>
         <p>所在地: 東京23区内</p>
         <p>お問い合わせ: ririki.nakabayashi.force@gmail.com</p>
-        <p>事業内容:  開発要件定義 / フロントエンド開発 / UI提案</p>
+        <p>事業内容:  システム開発 / 動画編集 / 音楽制作</p>
       </BasicWrapper>
     </Container>
   );

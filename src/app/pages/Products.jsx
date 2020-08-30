@@ -44,13 +44,11 @@ const ProductWrapper = styled.div`
 `;
 
 const ProductImageBox = styled.div`
-  min-width: 300px;
-  height: 200px;
+  max-width: 300px;
   margin-right: 20px;
   ${mediaQuery.lessThan('medium')`
     width: 100%;
-    height: 300px;
-    margin-right: 0;
+    margin: 0 auto;
   `}
 `;
 
