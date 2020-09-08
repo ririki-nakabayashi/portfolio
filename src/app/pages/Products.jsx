@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import mediaQuery from 'styled-media-query';
@@ -7,16 +8,17 @@ import { format } from 'date-fns';
 export default function Products() {
   const products = useSelector((state) => state.products);
   const formatDate = useCallback((target) => (target ? format(new Date(target), 'yyyy-MM') : ''));
+  const createMarkup = useCallback((target) => ({ __html: target }), []);
   return (
     <Container>
       {products.map((item) => (
         <ProductWrapper key={item.id}>
           <ProductImageBox><ProductImage alt="productImage" src={item.image.url} /></ProductImageBox>
           <div>
-            <p>{item.title}</p>
-            <p>{item.desc}</p>
-            <p>{item.option}</p>
-            <p>{`${formatDate(item.startDate)}~${formatDate(item.endDate)}`}</p>
+            <ProductTitle>{item.title}</ProductTitle>
+            <ProductDesc dangerouslySetInnerHTML={createMarkup(item.desc)} />
+            <ProductOption>{item.option}</ProductOption>
+            <ProductDate>{`${formatDate(item.startDate)}~${formatDate(item.endDate)}`}</ProductDate>
           </div>
         </ProductWrapper>
       ))}
@@ -45,7 +47,7 @@ const ProductWrapper = styled.div`
 
 const ProductImageBox = styled.div`
   max-width: 300px;
-  margin-right: 20px;
+  margin: 20px 20px 0 0;
   ${mediaQuery.lessThan('medium')`
     width: 100%;
     margin: 0 auto;
@@ -55,4 +57,25 @@ const ProductImageBox = styled.div`
 const ProductImage = styled.img`
   max-width: 100%;
   max-height: 100%;
+`;
+
+const ProductTitle = styled.h3`
+  margin: 0 0 10px 0;
+`;
+
+const ProductDesc = styled.div`
+  white-space: pre-line;
+  margin: 0 0 0 20px;
+`;
+
+const ProductOption = styled.p`
+  margin: 10px 20px 10px 0;
+  font-size: 0.9em;
+  color: #444;
+`;
+
+const ProductDate = styled.p`
+  margin: 10px 20px 10px 0;
+  font-size: 0.9em;
+  color: #444;
 `;
