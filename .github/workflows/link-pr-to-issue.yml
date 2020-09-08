@@ -1,0 +1,46 @@
+name: Link PR to Issue
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  link-pr-to-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for issue references
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            
+            // Issue番号を抽出する正規表現
+            const issueRegex = /#(\d+)/g;
+            const matches = [...body.matchAll(issueRegex)];
+            
+            for (const match of matches) {
+              const issueNumber = parseInt(match[1]);
+              
+              try {
+                // Issueの存在確認
+                await github.rest.issues.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber
+                });
+                
+                // PRをIssueのdevelopment項目に紐付け
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  body: body + `\n\nLinked PR: #${pr.number}`
+                });
+                
+                console.log(`Successfully linked PR #${pr.number} to Issue #${issueNumber}`);
+              } catch (error) {
+                console.log(`Failed to link PR to Issue #${issueNumber}: ${error.message}`);
+              }
+            } 
