@@ -24,7 +24,7 @@ export default function About() {
       <BasicWrapper>
         <p>FE: HTML, CSS, SASS, JavaScript(ES6), React, Vue.js, Angular, TypeScript</p>
         <p>BE: Node.js, Java, PHP, Ruby</p>
-        <p>DB: MySQL, PostgreSQL, mongoDB</p>
+        <p>DB: MySQL, PostgreSQL, mongoDB, Redis</p>
         <p>ETC.: Firebase, Wordpress</p>
         <br />
         <p>勉強中: UI, Webデザイン, SVELTE</p>
