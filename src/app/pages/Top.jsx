@@ -5,7 +5,7 @@ export default function Top() {
   return (
     <Container>
       <Title>force.</Title>
-      <Desc>portfolio site created by ririki nakabayashi</Desc>
+      <Desc>portfolio site created by ririki</Desc>
     </Container>
   );
 }
