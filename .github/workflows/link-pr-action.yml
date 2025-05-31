@@ -1,0 +1,46 @@
+name: Link PR Action
+
+# PRの作成・編集時にワークフローを実行
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+
+jobs:
+  link_issue:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # PR概要欄からIssue番号を抽出
+      - name: Extract issue number from PR description
+        id: extract_issue
+        run: |
+          ISSUE=$(grep -oP '#\K\d+' <<< "${{ github.event.pull_request.body }}" | head -1)
+          echo "ISSUE_NUMBER=$ISSUE" >> $GITHUB_ENV
+
+      # Issue番号が存在する場合、Closes参照を追加
+      - name: Add Closes reference if issue is mentioned
+        if: env.ISSUE_NUMBER != ''
+        run: |
+          if ! grep -q "Closes #$ISSUE_NUMBER" <<< "${{ github.event.pull_request.body }}"; then
+            PR_BODY="${{ github.event.pull_request.body }}"
+            # 末尾の\n\nCloses #1を削除
+            PR_BODY=$(echo "$PR_BODY" | sed -e 's/\\n\\nCloses #.*$//')
+            # 改行を追加してCloses参照を右端揃えで追加（斜体と引用形式）
+            printf "%s\n\n> <div align=\"right\"><i>Closes #%s</i></div>" "$PR_BODY" "$ISSUE_NUMBER" | gh pr edit ${{ github.event.pull_request.number }} --body-file -
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # IssueのDevelopmentセクションにPRをリンク
+      - name: Link PR to issue development section
+        if: env.ISSUE_NUMBER != ''
+        run: |
+          gh api --method PATCH /repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
+            -f development="[{\"pull_request\": \"${{ github.event.pull_request.html_url }}\"}]"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
