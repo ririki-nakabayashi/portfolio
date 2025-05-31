@@ -2,61 +2,24 @@ name: Link PR to Issue
 
 on:
   pull_request:
-    types: [opened, edited]
+    types:
+      - opened
 
 jobs:
-  link-pr-to-issue:
+  link_issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Check for issue references
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const pr = context.payload.pull_request;
-            const body = pr.body || '';
-            
-            // Issue番号を抽出する正規表現
-            const issueRegex = /#(\d+)/g;
-            const matches = [...body.matchAll(issueRegex)];
-            
-            for (const match of matches) {
-              const issueNumber = parseInt(match[1]);
-              
-              try {
-                // Issueの存在確認とnode_idの取得
-                const issue = await github.rest.issues.get({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issueNumber
-                });
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-                // GraphQLを使用してPRをIssueのDevelopment項目に紐付け
-                const mutation = `
-                  mutation {
-                    updateIssue(input: {
-                      id: "${issue.data.node_id}",
-                      body: "${body}\\n\\nLinked PR: #${pr.number}"
-                    }) {
-                      issue {
-                        id
-                      }
-                    }
-                  }
-                `;
+      - name: Extract issue number from PR description
+        id: extract_issue
+        run: |
+          ISSUE=$(grep -oP '(?<=Closes #)\d+' <<< "${{ github.event.pull_request.body }}" | head -1)
+          echo "ISSUE_NUMBER=$ISSUE" >> $GITHUB_ENV
 
-                await github.graphql(mutation);
-                
-                // PRの本文にIssueへのリンクを追加
-                await github.rest.issues.update({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: pr.number,
-                  body: pr.body + `\n\nCloses #${issueNumber}`
-                });
-                
-                console.log(`Successfully linked PR #${pr.number} to Issue #${issueNumber}`);
-              } catch (error) {
-                console.log(`Failed to link PR to Issue #${issueNumber}: ${error.message}`);
-              }
-            } 
+      - name: Link PR to issue development section
+        if: env.ISSUE_NUMBER != ''
+        run: gh api --method PATCH /repos/${{ github.repository }}/issues/$ISSUE_NUMBER -f development="[{'pull_request': '${{ github.event.pull_request.html_url }}'}]"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
