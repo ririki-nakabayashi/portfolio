@@ -4,6 +4,7 @@ on:
   pull_request:
     types:
       - opened
+      - edited
 
 jobs:
   link_issue:
@@ -15,8 +16,17 @@ jobs:
       - name: Extract issue number from PR description
         id: extract_issue
         run: |
-          ISSUE=$(grep -oP '(?<=Closes #)\d+' <<< "${{ github.event.pull_request.body }}" | head -1)
+          ISSUE=$(grep -oP '(?<=#)\d+' <<< "${{ github.event.pull_request.body }}" | head -1)
           echo "ISSUE_NUMBER=$ISSUE" >> $GITHUB_ENV
+
+      - name: Add Closes reference if issue is mentioned
+        if: env.ISSUE_NUMBER != ''
+        run: |
+          if ! grep -q "Closes #$ISSUE_NUMBER" <<< "${{ github.event.pull_request.body }}"; then
+            gh pr edit ${{ github.event.pull_request.number }} --body "${{ github.event.pull_request.body }}\n\nCloses #$ISSUE_NUMBER"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Link PR to issue development section
         if: env.ISSUE_NUMBER != ''
