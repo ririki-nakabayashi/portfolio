@@ -17,6 +17,7 @@ export default function About() {
           <div>
             <p>UI/UX フロントエンド エンジニア</p>
             <p>ナカバヤシ リリキ</p>
+            <p>Webアプリケーション開発を中心に、ユーザー体験を重視した開発を行っています。</p>
           </div>
         </ProfileWrapper>
       </div>
