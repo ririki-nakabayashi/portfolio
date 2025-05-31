@@ -15,8 +15,9 @@ export default function About() {
         <ProfileWrapper>
           <ImageArea><Image src={profile.image.url} /></ImageArea>
           <div>
-            <p>UI/フロントエンド エンジニア</p>
+            <p>UI/UX フロントエンド エンジニア</p>
             <p>ナカバヤシ リリキ</p>
+            <p>Webアプリケーション開発を中心に、ユーザー体験を重視した開発を行っています。</p>
           </div>
         </ProfileWrapper>
       </div>
@@ -25,7 +26,7 @@ export default function About() {
         <p>FE: HTML, CSS, SASS, JavaScript(ES6), React, Vue.js, Angular, TypeScript</p>
         <p>BE: Node.js, Java, PHP, Ruby</p>
         <p>DB: MySQL, PostgreSQL, mongoDB</p>
-        <p>ETC.: Firebase, Wordpress</p>
+        <p>ETC.: Cursor, Firebase, Wordpress</p>
         <br />
         <p>勉強中: UI, Webデザイン, SVELTE</p>
       </BasicWrapper>
