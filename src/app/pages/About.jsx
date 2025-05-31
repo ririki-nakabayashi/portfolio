@@ -27,7 +27,7 @@ export default function About() {
         <p>DB: MySQL, PostgreSQL, mongoDB</p>
         <p>ETC.: Firebase, Wordpress</p>
         <br />
-        <p>勉強中: UI, Webデザイン, SVELTE</p>
+        <p>勉強中: UI/UX, Webデザイン, SVELTE, Next.js</p>
       </BasicWrapper>
       <Title>Career</Title>
       <CareerWrapper>
