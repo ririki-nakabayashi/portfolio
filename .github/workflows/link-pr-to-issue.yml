@@ -24,12 +24,9 @@ jobs:
         run: |
           if ! grep -q "Closes #$ISSUE_NUMBER" <<< "${{ github.event.pull_request.body }}"; then
             PR_BODY="${{ github.event.pull_request.body }}"
-            # 末尾の改行を削除
             PR_BODY=$(echo "$PR_BODY" | sed -e 's/\n*$//')
-            # Closes参照を追加
-            gh pr edit ${{ github.event.pull_request.number }} --body "$PR_BODY
-
-Closes #$ISSUE_NUMBER"
+            NEW_BODY="${PR_BODY}\n\nCloses #$ISSUE_NUMBER"
+            gh pr edit ${{ github.event.pull_request.number }} --body "$NEW_BODY"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
