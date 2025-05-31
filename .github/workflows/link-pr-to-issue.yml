@@ -36,9 +36,7 @@ jobs:
                   mutation {
                     updateIssue(input: {
                       id: "${issue.data.node_id}",
-                      linkedPullRequests: [{
-                        id: "${pr.node_id}"
-                      }]
+                      body: "${body}\\n\\nLinked PR: #${pr.number}"
                     }) {
                       issue {
                         id
@@ -49,7 +47,15 @@ jobs:
 
                 await github.graphql(mutation);
                 
-                console.log(`Successfully linked PR #${pr.number} to Issue #${issueNumber} in Development`);
+                // PRの本文にIssueへのリンクを追加
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  body: pr.body + `\n\nCloses #${issueNumber}`
+                });
+                
+                console.log(`Successfully linked PR #${pr.number} to Issue #${issueNumber}`);
               } catch (error) {
                 console.log(`Failed to link PR to Issue #${issueNumber}: ${error.message}`);
               }
