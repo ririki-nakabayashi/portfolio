@@ -25,7 +25,7 @@ jobs:
           if ! grep -q "Closes #$ISSUE_NUMBER" <<< "${{ github.event.pull_request.body }}"; then
             PR_BODY="${{ github.event.pull_request.body }}"
             PR_BODY=$(echo "$PR_BODY" | sed -e 's/\\n\\nCloses #.*$//')
-            printf "%s\n\nCloses #%s" "$PR_BODY" "$ISSUE_NUMBER" | gh pr edit ${{ github.event.pull_request.number }} --body-file -
+            printf "%s\n\n<div align=\"right\">Closes #%s</div>" "$PR_BODY" "$ISSUE_NUMBER" | gh pr edit ${{ github.event.pull_request.number }} --body-file -
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
