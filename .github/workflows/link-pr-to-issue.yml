@@ -30,6 +30,8 @@ jobs:
 
       - name: Link PR to issue development section
         if: env.ISSUE_NUMBER != ''
-        run: gh api --method PATCH /repos/${{ github.repository }}/issues/$ISSUE_NUMBER -f development="[{'pull_request': '${{ github.event.pull_request.html_url }}'}]"
+        run: |
+          gh api --method PATCH /repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
+            -f development="[{\"pull_request\": \"${{ github.event.pull_request.html_url }}\"}]"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
