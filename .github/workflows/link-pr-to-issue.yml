@@ -24,22 +24,32 @@ jobs:
               const issueNumber = parseInt(match[1]);
               
               try {
-                // Issueの存在確認
-                await github.rest.issues.get({
+                // Issueの存在確認とnode_idの取得
+                const issue = await github.rest.issues.get({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issueNumber
                 });
+
+                // GraphQLを使用してPRをIssueのDevelopment項目に紐付け
+                const mutation = `
+                  mutation {
+                    updateIssue(input: {
+                      id: "${issue.data.node_id}",
+                      linkedPullRequests: [{
+                        id: "${pr.node_id}"
+                      }]
+                    }) {
+                      issue {
+                        id
+                      }
+                    }
+                  }
+                `;
+
+                await github.graphql(mutation);
                 
-                // PRをIssueのdevelopment項目に紐付け
-                await github.rest.issues.update({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issueNumber,
-                  body: body + `\n\nLinked PR: #${pr.number}`
-                });
-                
-                console.log(`Successfully linked PR #${pr.number} to Issue #${issueNumber}`);
+                console.log(`Successfully linked PR #${pr.number} to Issue #${issueNumber} in Development`);
               } catch (error) {
                 console.log(`Failed to link PR to Issue #${issueNumber}: ${error.message}`);
               }
